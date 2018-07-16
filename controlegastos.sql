@@ -1,0 +1,289 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.7
+-- Dumped by pg_dump version 9.5.7
+
+-- Started on 2018-07-16 18:18:32 BRT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12395)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2178 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 181 (class 1259 OID 41219)
+-- Name: cliente; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE cliente (
+    cd_cliente integer NOT NULL,
+    endereco_cd_endereco integer,
+    nm_razaosicial character varying(50),
+    nm_fantasia character varying(50),
+    ds_email character varying(200)
+);
+
+
+ALTER TABLE cliente OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 41255)
+-- Name: endereco; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE endereco (
+    cd_endereco integer NOT NULL,
+    nm_rua character varying(20),
+    nr_casa integer,
+    ds_complemento text,
+    nm_bairro character varying(15),
+    nm_cidade character varying(15),
+    ds_cep text,
+    telefone1 numeric(15,0),
+    telefone2 numeric(15,0)
+);
+
+
+ALTER TABLE endereco OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 41249)
+-- Name: funcao; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE funcao (
+    cd_funcao integer NOT NULL,
+    ds_funcao text,
+    tp_visivel character(1)
+);
+
+
+ALTER TABLE funcao OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 41243)
+-- Name: funcionamento; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE funcionamento (
+    cd_funcionario integer NOT NULL,
+    funcao_cd_funcao integer,
+    endereco_cd_endereco integer,
+    nm_funcionario character varying(30),
+    ds_senha character varying(20),
+    tp_visivel character(1),
+    nick name
+);
+
+
+ALTER TABLE funcionamento OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 41261)
+-- Name: ordem_servico; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE ordem_servico (
+    cd_ordem_servico integer NOT NULL,
+    funcionario_cd_funcionario integer,
+    cliente_cd_cliente integer,
+    dt_ordem_servico date,
+    vl_total numeric(15,3),
+    bool_fechado boolean
+);
+
+
+ALTER TABLE ordem_servico OWNER TO postgres;
+
+--
+-- TOC entry 2166 (class 0 OID 41219)
+-- Dependencies: 181
+-- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY cliente (cd_cliente, endereco_cd_endereco, nm_razaosicial, nm_fantasia, ds_email) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2169 (class 0 OID 41255)
+-- Dependencies: 184
+-- Data for Name: endereco; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY endereco (cd_endereco, nm_rua, nr_casa, ds_complemento, nm_bairro, nm_cidade, ds_cep, telefone1, telefone2) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2168 (class 0 OID 41249)
+-- Dependencies: 183
+-- Data for Name: funcao; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY funcao (cd_funcao, ds_funcao, tp_visivel) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2167 (class 0 OID 41243)
+-- Dependencies: 182
+-- Data for Name: funcionamento; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY funcionamento (cd_funcionario, funcao_cd_funcao, endereco_cd_endereco, nm_funcionario, ds_senha, tp_visivel, nick) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2170 (class 0 OID 41261)
+-- Dependencies: 185
+-- Data for Name: ordem_servico; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY ordem_servico (cd_ordem_servico, funcionario_cd_funcionario, cliente_cd_cliente, dt_ordem_servico, vl_total, bool_fechado) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2043 (class 2606 OID 41275)
+-- Name: cd_funcao; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY funcao
+    ADD CONSTRAINT cd_funcao PRIMARY KEY (cd_funcao);
+
+
+--
+-- TOC entry 2040 (class 2606 OID 41277)
+-- Name: cd_funcionamento; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY funcionamento
+    ADD CONSTRAINT cd_funcionamento PRIMARY KEY (cd_funcionario);
+
+
+--
+-- TOC entry 2047 (class 2606 OID 41279)
+-- Name: cd_ordem_servico; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ordem_servico
+    ADD CONSTRAINT cd_ordem_servico PRIMARY KEY (cd_ordem_servico);
+
+
+--
+-- TOC entry 2038 (class 2606 OID 41265)
+-- Name: pkcliente; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY cliente
+    ADD CONSTRAINT pkcliente PRIMARY KEY (cd_cliente);
+
+
+--
+-- TOC entry 2045 (class 2606 OID 41267)
+-- Name: pkendereco; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY endereco
+    ADD CONSTRAINT pkendereco PRIMARY KEY (cd_endereco);
+
+
+--
+-- TOC entry 2036 (class 1259 OID 41273)
+-- Name: fki_cd_endereco; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_cd_endereco ON cliente USING btree (endereco_cd_endereco);
+
+
+--
+-- TOC entry 2048 (class 1259 OID 41296)
+-- Name: fki_cliente_cd_cliente; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_cliente_cd_cliente ON ordem_servico USING btree (cliente_cd_cliente);
+
+
+--
+-- TOC entry 2041 (class 1259 OID 41285)
+-- Name: fki_funcao; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_funcao ON funcionamento USING btree (funcao_cd_funcao);
+
+
+--
+-- TOC entry 2049 (class 2606 OID 41286)
+-- Name: fk_cliente; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY cliente
+    ADD CONSTRAINT fk_cliente FOREIGN KEY (endereco_cd_endereco) REFERENCES cliente(cd_cliente);
+
+
+--
+-- TOC entry 2051 (class 2606 OID 41291)
+-- Name: fk_cliente_cd_cliente; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ordem_servico
+    ADD CONSTRAINT fk_cliente_cd_cliente FOREIGN KEY (cliente_cd_cliente) REFERENCES ordem_servico(cd_ordem_servico);
+
+
+--
+-- TOC entry 2050 (class 2606 OID 41280)
+-- Name: fk_funcao; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY funcionamento
+    ADD CONSTRAINT fk_funcao FOREIGN KEY (funcao_cd_funcao) REFERENCES funcionamento(cd_funcionario);
+
+
+--
+-- TOC entry 2177 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2018-07-16 18:18:32 BRT
+
+--
+-- PostgreSQL database dump complete
+--
+
